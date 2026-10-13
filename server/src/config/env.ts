@@ -24,9 +24,13 @@ const envSchema = z.object({
   SMTP_USER: z.string().optional().default(''),
   SMTP_PASSWORD: z.string().optional().default(''),
   SMTP_FROM: z.string().default('StayFlow <no-reply@example.com>'),
-  CLIENT_URL: z.string().url().default('http://localhost:5173'),
-  DASHBOARD_URL: z.string().url().default('http://localhost:5174'),
-  WEB_ORIGINS: z.string().default('http://localhost:5173,http://localhost:5174'),
+  CLIENT_URL: z.string().url().default('https://stayflow-inky.vercel.app'),
+  DASHBOARD_URL: z.string().url().default('https://stayflow-dashboard-lovat.vercel.app'),
+  WEB_ORIGINS: z
+    .string()
+    .default(
+      'https://stayflow-inky.vercel.app,https://stayflow-dashboard-lovat.vercel.app,http://localhost:5173,http://localhost:5174',
+    ),
 });
 
 const parsed = envSchema.safeParse(process.env);

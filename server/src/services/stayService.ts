@@ -16,6 +16,7 @@ import {
 } from '../models/index.js';
 import { InvoiceStatus, PaymentMethod, ReservationStatus, RoomStatus, ServiceStatus, StayStatus, TaskStatus } from '../types/enums.js';
 import { AppError } from '../utils/error.js';
+import { env } from '../config/env.js';
 import { entityId, roundMoney } from '../utils/common.js';
 import { createOpaqueToken, hashToken } from '../utils/token.js';
 import { recordPayment } from './invoiceService.js';
@@ -65,7 +66,7 @@ export async function checkIn(input: { reservationId: string; hotelId: string; u
     }
     return { reservation, stay, room, token };
   });
-  const qrDataUrl = await QRCode.toDataURL(`${process.env.CLIENT_URL ?? 'http://localhost:5173'}/guest/${result.token}`);
+  const qrDataUrl = await QRCode.toDataURL(`${env.CLIENT_URL}/guest/${result.token}`);
   emitHotelEvent(input.hotelId, 'stay.checked_in', { stayId: result.stay._id, reservationId: result.reservation._id, roomId: result.room._id });
   await writeAuditLog({ hotelId: input.hotelId, userId: input.userId, action: 'stay.checked_in', entity: 'Stay', entityId: result.stay._id.toString(), newValue: { reservationId: result.reservation._id, roomId: result.room._id }, request: input.request });
   return { ...result, qrDataUrl };

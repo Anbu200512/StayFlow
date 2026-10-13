@@ -1,6 +1,6 @@
 services:
   # ------------------------------------------------------------------
-  # Backend API (Express + Socket.IO) -> https://stayflow-api.onrender.com
+  # Backend API (Express + Socket.IO) -> https://stayflow-2jrc.onrender.com
   # ------------------------------------------------------------------
   - type: web
     name: stayflow-api
@@ -57,14 +57,14 @@ services:
         sync: false
       # Origins — update these if Render assigns different subdomains
       - key: CLIENT_URL
-        value: https://stayflow-website.onrender.com
+        value: https://stayflow-inky.vercel.app
       - key: DASHBOARD_URL
-        value: https://stayflow-dashboard.onrender.com
+        value: https://stayflow-dashboard-lovat.vercel.app
       - key: WEB_ORIGINS
-        value: https://stayflow-website.onrender.com,https://stayflow-dashboard.onrender.com
+        value: https://stayflow-inky.vercel.app,https://stayflow-dashboard-lovat.vercel.app
 
   # ------------------------------------------------------------------
-  # Public guest website -> https://stayflow-website.onrender.com
+  # Public guest website -> https://stayflow-inky.vercel.app
   # ------------------------------------------------------------------
   - type: web
     name: stayflow-website
@@ -86,10 +86,10 @@ services:
       - key: VITE_API_URL
         value: https://stayflow-2jrc.onrender.com/api
       - key: VITE_WEBSITE_URL
-        value: https://stayflow-website.onrender.com
+        value: https://stayflow-inky.vercel.app
 
   # ------------------------------------------------------------------
-  # Staff dashboard -> https://stayflow-dashboard.onrender.com
+  # Staff dashboard -> https://stayflow-dashboard-lovat.vercel.app
   # ------------------------------------------------------------------
   - type: web
     name: stayflow-dashboard
@@ -111,4 +111,4 @@ services:
       - key: VITE_API_URL
         value: https://stayflow-2jrc.onrender.com/api
       - key: VITE_WEBSITE_URL
-        value: https://stayflow-website.onrender.com
+        value: https://stayflow-inky.vercel.app
