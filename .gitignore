@@ -2,6 +2,8 @@ node_modules
 .env
 .env.*
 !.env.example
+!apps/website/.env.production
+!apps/dashboard/.env.production
 dist
 coverage
 .vite

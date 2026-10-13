@@ -84,7 +84,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://stayflow-api.onrender.com/api
+        value: https://stayflow-2jrc.onrender.com/api
       - key: VITE_WEBSITE_URL
         value: https://stayflow-website.onrender.com
 
@@ -109,6 +109,6 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://stayflow-api.onrender.com/api
+        value: https://stayflow-2jrc.onrender.com/api
       - key: VITE_WEBSITE_URL
         value: https://stayflow-website.onrender.com
