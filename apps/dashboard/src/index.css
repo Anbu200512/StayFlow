@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: #0f172a; background: #f5f7fb; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: #f5f7fb; }
+button, input, select, textarea { font: inherit; }
+
+@layer components {
+  .dashboard-input { @apply w-full border border-ink/10 bg-white px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-forest focus:ring-2 focus:ring-forest/10; }
+  .dashboard-label { @apply mb-1.5 block text-xs font-medium text-ink/70; }
+  .dashboard-card { @apply border border-ink/10 bg-white shadow-sm; }
+  .dashboard-button { @apply inline-flex items-center justify-center gap-2 bg-forest px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-50; }
+  .dashboard-button-light { @apply inline-flex items-center justify-center gap-2 border border-ink/15 bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-forest hover:text-forest disabled:cursor-not-allowed disabled:opacity-50; }
+}
+
+/* Keyboard focus must stay obvious even where a component sets outline-none. */
+:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

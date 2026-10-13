@@ -1,0 +1,28 @@
+{
+  "name": "stayflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StayFlow hotel management and booking system",
+  "workspaces": [
+    "apps/website",
+    "apps/dashboard",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,website,dashboard \"npm run dev --workspace server\" \"npm run dev --workspace apps/website\" \"npm run dev --workspace apps/dashboard\"",
+    "build": "npm run build --workspace server && npm run build --workspace apps/website && npm run build --workspace apps/dashboard",
+    "lint": "npm run lint --workspace server && npm run lint --workspace apps/website && npm run lint --workspace apps/dashboard",
+    "typecheck": "npm run typecheck --workspace server && npm run typecheck --workspace apps/website && npm run typecheck --workspace apps/dashboard",
+    "test": "npm run test --workspace server",
+    "seed": "npm run seed --workspace server",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
