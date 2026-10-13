@@ -2,10 +2,27 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Bell, BellOff, Check, CheckCheck, Mail, MessageSquare, Smartphone } from 'lucide-react';
 import { adminApi } from '../lib/api';
-import { EmptyState, ErrorState, LoadingState, PageHeader, StatCard, StatusBadge } from '../components/Ui';
+import { EmptyState, ErrorState, LoadingState, PageHeader, StatCard, StatusBadge, toneStyles, type StatusTone } from '../components/Ui';
 import { formatDateTime } from '../lib/format';
 
 type Filter = 'all' | 'unread' | 'read';
+
+const typeTones: Record<string, StatusTone> = {
+  'reservation.created': 'success',
+  'booking.confirmation': 'success',
+  'service.request': 'warning',
+  'order.room_service': 'warning',
+  'order.restaurant': 'attention',
+  'housekeeping.task': 'warning',
+  'maintenance.request': 'attention',
+  'inventory.low_stock': 'danger',
+  'stay.checked_out': 'neutral',
+  'website.contact': 'warning',
+};
+
+function typeTone(type: string): StatusTone {
+  return typeTones[type] ?? 'neutral';
+}
 
 function ChannelIcon({ channel }: { channel: string }) {
   if (channel === 'email') return <Mail size={15} />;
@@ -106,7 +123,7 @@ export default function NotificationsPage() {
                     <div className="flex flex-wrap items-center gap-2">
                       <h2 className="font-display text-2xl">{notification.title}</h2>
                       <StatusBadge status={notification.status} />
-                      <span className="text-xs font-medium text-ink/55">{notification.type.replace(/[._]/g, ' ')}</span>
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${toneStyles[typeTone(notification.type)]}`}>{notification.type.replace(/[._]/g, ' ')}</span>
                     </div>
                     <p className="mt-2 text-sm leading-6 text-ink/65">{notification.message}</p>
                     {notification.type === 'website.contact' && notification.metadata?.email && <p className="mt-1 text-xs text-ink/45">From {notification.metadata.name} · {notification.metadata.email}{notification.metadata.phone ? ` · ${notification.metadata.phone}` : ''}</p>}

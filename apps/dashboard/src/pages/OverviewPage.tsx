@@ -6,7 +6,7 @@ import { adminApi } from '../lib/api';
 import { PageHeader, StatCard, LoadingState, ErrorState } from '../components/Ui';
 import { formatMoney } from '../lib/format';
 
-const roomColors: Record<string, string> = { available: '#2563eb', occupied: '#5d88a8', reserved: '#d5a64e', dirty: '#c77b4b', cleaning: '#9271b2', maintenance: '#b65d5d', out_of_service: '#9ca3af' };
+const roomColors: Record<string, string> = { available: '#16a34a', occupied: '#eab308', reserved: '#d97706', dirty: '#ea580c', cleaning: '#f59e0b', maintenance: '#ca8a04', out_of_service: '#dc2626' };
 export default function OverviewPage() {
   const { data, isLoading, isError, refetch } = useQuery({ queryKey: ['overview'], queryFn: adminApi.overview, refetchInterval: 60_000 });
   if (isLoading) return <LoadingState label="Loading the house" />;

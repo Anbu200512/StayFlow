@@ -257,6 +257,7 @@ export async function createServiceRequest(input: { hotelId: string; roomId: str
   if (!stayId) throw new AppError('Active stay is required', 400, 'STAY_REQUIRED');
   const request = await ServiceRequest.create({ hotelId: input.hotelId, stayId, reservationId: input.reservationId, roomId: input.roomId, guestId, category: input.category, description: input.description, priority: input.priority ?? 'normal', status: ServiceStatus.PENDING });
   emitHotelEvent(input.hotelId, 'service.request.created', request.toObject());
+  await createNotification({ hotelId: input.hotelId, type: 'service.request', title: 'Guest service request', message: `${input.category.replaceAll('_', ' ')}: ${input.description}`, metadata: { requestId: request._id, roomId: input.roomId } });
   return request;
 }
 

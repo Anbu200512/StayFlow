@@ -6,7 +6,7 @@ import { adminApi } from '../lib/api';
 import { EmptyState, ErrorState, LoadingState, PageHeader, StatCard, StatusBadge } from '../components/Ui';
 import { formatDate, formatMoney } from '../lib/format';
 
-const roomColors: Record<string, string> = { available: '#2563eb', occupied: '#5d88a8', reserved: '#d5a64e', dirty: '#c77b4b', cleaning: '#9271b2', maintenance: '#b65d5d', out_of_service: '#9ca3af' };
+const roomColors: Record<string, string> = { available: '#16a34a', occupied: '#eab308', reserved: '#d97706', dirty: '#ea580c', cleaning: '#f59e0b', maintenance: '#ca8a04', out_of_service: '#dc2626' };
 
 function isoDate(date: Date) {
   return date.toISOString().slice(0, 10);

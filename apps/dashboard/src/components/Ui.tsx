@@ -3,8 +3,56 @@ import { AlertCircle, CheckCircle2, LoaderCircle, X } from 'lucide-react';
 import { useDialog } from '../lib/useDialog';
 
 export function PageHeader({ eyebrow, title, description, action }: { eyebrow?: string; title: string; description?: string; action?: ReactNode }) { return <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end"><div>{eyebrow && <p className="text-xs font-medium text-forest">{eyebrow}</p>}<h1 className="mt-2 text-2xl font-semibold leading-tight text-ink md:text-3xl">{title}</h1>{description && <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/55">{description}</p>}</div>{action}</div>; }
-export function StatCard({ label, value, detail, icon, tone = 'default' }: { label: string; value: string | number; detail?: string; icon?: ReactNode; tone?: 'default' | 'green' | 'copper' }) { return <div className={`dashboard-card p-5 ${tone === 'green' ? 'border-forest/20 bg-forest text-white' : tone === 'copper' ? 'border-copper/20 bg-[#eff6ff]' : ''}`}><div className="flex items-start justify-between"><p className={`text-xs font-medium ${tone === 'green' ? 'text-sage' : 'text-ink/55'}`}>{label}</p>{icon && <span className={tone === 'green' ? 'text-sage' : 'text-forest'}>{icon}</span>}</div><p className="mt-4 text-2xl font-semibold leading-none">{value}</p>{detail && <p className={`mt-2 text-sm ${tone === 'green' ? 'text-white/55' : 'text-ink/50'}`}>{detail}</p>}</div>; }
-export function StatusBadge({ status }: { status: string }) { const normalized = status.toLowerCase().replaceAll(' ', '_'); const styles: Record<string, string> = { confirmed: 'bg-forest/10 text-forest', pending: 'bg-amber-50 text-amber-700', checked_in: 'bg-blue-50 text-blue-700', checked_out: 'bg-slate-100 text-slate-600', completed: 'bg-forest/10 text-forest', cancelled: 'bg-red-50 text-red-700', no_show: 'bg-red-50 text-red-700', available: 'bg-forest/10 text-forest', occupied: 'bg-blue-50 text-blue-700', reserved: 'bg-amber-50 text-amber-700', dirty: 'bg-orange-50 text-orange-700', cleaning: 'bg-purple-50 text-purple-700', maintenance: 'bg-red-50 text-red-700', out_of_service: 'bg-slate-100 text-slate-600', paid: 'bg-forest/10 text-forest', partially_paid: 'bg-amber-50 text-amber-700', issued: 'bg-blue-50 text-blue-700', void: 'bg-slate-100 text-slate-600', preparing: 'bg-purple-50 text-purple-700', ready: 'bg-cyan-50 text-cyan-700', delivered: 'bg-sage/25 text-forest' }; return <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium ${styles[normalized] ?? 'bg-ink/5 text-ink/60'}`}><span className="h-1.5 w-1.5 rounded-full bg-current" />{status.replaceAll('_', ' ')}</span>; }
+export function StatCard({ label, value, detail, icon, tone = 'default' }: { label: string; value: string | number; detail?: string; icon?: ReactNode; tone?: 'default' | 'green' | 'copper' }) { return <div className={`dashboard-card p-5 ${tone === 'green' ? 'border-emerald-200 bg-emerald-600 text-white' : tone === 'copper' ? 'border-amber-200 bg-amber-50' : ''}`}><div className="flex items-start justify-between"><p className={`text-xs font-medium ${tone === 'green' ? 'text-emerald-100' : 'text-ink/55'}`}>{label}</p>{icon && <span className={tone === 'green' ? 'text-emerald-100' : 'text-forest'}>{icon}</span>}</div><p className="mt-4 text-2xl font-semibold leading-none">{value}</p>{detail && <p className={`mt-2 text-sm ${tone === 'green' ? 'text-white/70' : 'text-ink/50'}`}>{detail}</p>}</div>; }
+export type StatusTone = 'success' | 'warning' | 'attention' | 'danger' | 'neutral';
+const statusTones: Record<string, StatusTone> = {
+  available: 'success',
+  confirmed: 'success',
+  completed: 'success',
+  active: 'success',
+  paid: 'success',
+  delivered: 'success',
+  ready: 'success',
+  resolved: 'success',
+  published: 'success',
+  sent: 'success',
+  inspected: 'success',
+  checked_in: 'success',
+  pending: 'warning',
+  accepted: 'warning',
+  assigned: 'warning',
+  reserved: 'warning',
+  occupied: 'warning',
+  draft: 'warning',
+  open: 'warning',
+  issued: 'warning',
+  preparing: 'warning',
+  maintenance: 'warning',
+  in_progress: 'attention',
+  cleaning: 'attention',
+  dirty: 'attention',
+  partially_paid: 'attention',
+  cancelled: 'danger',
+  no_show: 'danger',
+  out_of_service: 'danger',
+  failed: 'danger',
+  void: 'danger',
+  rejected: 'danger',
+  declined: 'danger',
+  checked_out: 'neutral',
+  closed: 'neutral',
+  read: 'neutral',
+  refunded: 'neutral',
+  partially_refunded: 'neutral',
+};
+export const toneStyles: Record<StatusTone, string> = {
+  success: 'bg-emerald-50 text-emerald-700',
+  warning: 'bg-amber-50 text-amber-800',
+  attention: 'bg-orange-50 text-orange-800',
+  danger: 'bg-red-50 text-red-700',
+  neutral: 'bg-slate-100 text-slate-600',
+};
+export function StatusBadge({ status }: { status: string }) { const normalized = status.toLowerCase().replaceAll(' ', '_'); const tone = toneStyles[statusTones[normalized] ?? 'neutral']; return <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium ${tone}`}><span className="h-1.5 w-1.5 rounded-full bg-current" />{status.replaceAll('_', ' ')}</span>; }
 export function LoadingState({ label = 'Loading' }: { label?: string }) { return <div role="status" aria-live="polite" className="flex min-h-48 items-center justify-center gap-3 text-sm text-ink/50"><LoaderCircle size={18} className="animate-spin text-forest" />{label}</div>; }
 export function ErrorState({ message, onRetry }: { message?: string; onRetry?: () => void }) { return <div role="alert" className="flex min-h-48 flex-col items-center justify-center gap-3 text-center"><AlertCircle className="text-copper" size={26} aria-hidden="true" /><p className="text-sm text-ink/55">{message ?? 'Something went wrong.'}</p>{onRetry && <button type="button" className="dashboard-button-light" onClick={onRetry}>Try again</button>}</div>; }
 export function EmptyState({ title, description, action }: { title: string; description: string; action?: ReactNode }) { return <div className="dashboard-card p-12 text-center"><CheckCircle2 className="mx-auto text-forest" size={28} aria-hidden="true" /><h3 className="mt-4 text-lg font-semibold text-ink">{title}</h3><p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink/50">{description}</p>{action && <div className="mt-5">{action}</div>}</div>; }

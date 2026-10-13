@@ -22,6 +22,7 @@ export async function createHousekeepingTask(input: { hotelId: string; roomId: s
   if (!room) throw new AppError('Room not found', 404, 'ROOM_NOT_FOUND');
   const task = await HousekeepingTask.create({ hotelId: input.hotelId, roomId: input.roomId, type: input.type, priority: input.priority ?? 'normal', assignedTo: input.assignedTo, dueAt: input.dueAt, notes: input.notes, source: input.source ?? 'manual' });
   emitHotelEvent(input.hotelId, 'housekeeping.task.created', task.toObject());
+  await createNotification({ hotelId: input.hotelId, type: 'housekeeping.task', title: 'Housekeeping task', message: `${input.type.replaceAll('_', ' ')} scheduled for a room.`, metadata: { taskId: task._id, roomId: input.roomId } });
   return task;
 }
 
@@ -111,6 +112,13 @@ export async function createRestaurantOrder(input: { hotelId: string; type: 'roo
   const order = await Order.create({ hotelId: input.hotelId, orderNumber: makeNumber('ORD'), type: input.type, status: OrderStatus.PENDING, tableId: input.tableId, roomId: input.roomId, stayId: input.stayId, guestId: input.guestId, items: orderItems, subtotal, tax, total: roundMoney(subtotal + tax), placedAt: new Date(), notes: input.notes });
   if (input.type === 'room_service' && input.roomId) await Room.updateOne({ _id: input.roomId }, { $set: { statusNote: 'Room service order pending' } });
   emitHotelEvent(input.hotelId, 'restaurant.order.created', order.toObject());
+  await createNotification({
+    hotelId: input.hotelId,
+    type: input.type === 'room_service' ? 'order.room_service' : 'order.restaurant',
+    title: input.type === 'room_service' ? 'Room service order' : 'Kitchen order',
+    message: `${order.orderNumber} · ${orderItems.length} item${orderItems.length === 1 ? '' : 's'} · ₹${order.total}`,
+    metadata: { orderId: order._id, orderType: input.type, roomId: input.roomId },
+  });
   return order;
 }
 
